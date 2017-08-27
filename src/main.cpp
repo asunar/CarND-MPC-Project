@@ -179,6 +179,8 @@ int main() {
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Yellow line
 
+          msgJson["steering_angle"] = -vars[0]/(deg2rad(25)*Lf);
+          msgJson["throttle"] = vars[1];          
           msgJson["next_x"] = next_x_vals;
           msgJson["next_y"] = next_y_vals;
 
