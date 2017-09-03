@@ -2,6 +2,54 @@
 Self-Driving Car Engineer Nanodegree Program
 
 ---
+## Reflections
+
+### Model
+
+Mostly reused the code from Mind the line quiz. 
+
+Model Inputs:
+
+- State: x(coord), y(coord), psi(alignment to reference line), v(elocity), cte(distance from reference line), epsi (alignment error)
+- Actuator: steering (restricted angle with min/max values), speed (between -1 and 1) 
+
+Cost function determines the model inputs we want to minimize. We prioritize the importance of the variables cost function
+is trying to minimize by increasing their weight.
+
+- distance to the referenced central line
+- no drastic changes in steering/speed
+- no significant values of steering/speed. 
+
+Then in each measurement update, we use an optimizer to minimize the cost, with the constraint expressed as motion update models: 
+
+```
+x_[t+1] - (x[t] + v[t] * cos(psi[t]) * dt) = 0
+y_[t+1] - ( y[t] + v[t] * sin(psi[t]) * dt) = 0
+psi_[t+1] - ( psi[t] + v[t] / Lf * delta[t] * dt) = 0
+v_[t+1] - ( v[t] + a[t] * dt) = 0
+cte[t+1] - (f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt) = 0
+epsi[t+1] - ( psi[t] - psides[t] + v[t] * delta[t] / Lf * dt) = 0
+```
+
+### dt and N
+
+Started with quiz values, then trial and error. 
+
+### Latency
+
+If we assume that the car will move forward at its current direction and speed, we can use the existing equations to determine
+where the car will be when the new actuator values are applied after the latency.
+
+```
+double latency = 0.1;
+px = px + v * cos(psi) * latency;
+py = py + v * sin(psi) * latency;
+psi = psi - v*steer_value/Lf*latency; // normalize steering angle
+v += throttle_value*latency;
+```
+
+---
+
 
 ## Dependencies
 
