@@ -13,7 +13,7 @@ Model Inputs:
 - State: x(coord), y(coord), psi(alignment to reference line), v(elocity), cte(distance from reference line), epsi (alignment error)
 - Actuator: steering (restricted angle with min/max values), speed (between -1 and 1) 
 
-Cost function determines the model inputs we want to minimize. We prioritize the importance of the variables cost function
+Cost function defines the model inputs we want to minimize. We prioritize the importance of the variables cost function
 is trying to minimize by increasing their weight.
 
 - distance to the referenced central line
